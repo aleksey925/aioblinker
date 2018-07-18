@@ -36,8 +36,8 @@ class Signal(blinker.Signal):
         if not self.receivers:
             return
 
-        ret_value = []
-        ret_value_append = ret_value.append
+        ret = []
+        ret_append = ret.append
 
         for receiver in self.receivers_for(sender):
             if inspect.iscoroutinefunction(receiver):
@@ -45,14 +45,14 @@ class Signal(blinker.Signal):
                     receiver(sender, **kwargs),
                     GLOBAL_DATA['loop']
                 )
-                ret_value_append((receiver, future))
+                ret_append((receiver, future))
             else:
                 callback_wrapper = GLOBAL_DATA['loop'].call_soon_threadsafe(
                     lambda receiver_=receiver: receiver_(sender, **kwargs)
                 )
-                ret_value_append((receiver, callback_wrapper))
+                ret_append((receiver, callback_wrapper))
 
-        return ret_value
+        return ret
 
 
 class NamedSignal(Signal):
