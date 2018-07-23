@@ -1,4 +1,5 @@
-# Пример использования aioblinker в PyQt приложении
+# Пример использования aioblinker в PyQt приложении для обмена данными между
+# разными потоками
 import asyncio
 import sys
 import threading
@@ -22,7 +23,7 @@ def thread(my_func):
 @thread
 def processing():
     """
-    Эмулирует обработку (скачивание) каких-то данных
+    Эмулирует затратную по времени операцию
     """
     print('worker thread: ', threading.current_thread().getName())
     res = [i for i in 'some data']
