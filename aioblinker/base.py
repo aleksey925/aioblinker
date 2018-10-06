@@ -7,11 +7,7 @@ from weakref import WeakValueDictionary
 import blinker
 
 GLOBAL_DATA = {
-    # Event loop используемый для вызова receiver. Нужен для поддержки
-    # сопрограмм и чтобы receiver выполнялся в главном потоке, а не потоке
-    # из которого вызывался сигнал (актуально для ситуации, когда сигнал
-    # вызывается из дочернего потока, а обработчик должен отработать
-    # в главном потоке).
+    # Event Loop is used for call receiver.
     'loop': asyncio.get_event_loop(),
     'loop_thread': threading.current_thread(),
 }
@@ -38,9 +34,9 @@ class Signal(blinker.Signal):
 
     def send(self, sender=None, **kwargs):
         """
-        Отправляет сигнал от имени sender, передавая получателю **kwargs
-        :param sender: любой объект или None
-        :param kwargs: данные, которые будут отправленны в receivers
+        Emit this signal on behalf of *sender*, passing on **kwargs.
+        :param sender: any object or None
+        :param kwargs: data to be sent to receivers
         """
         if not self.receivers:
             return
@@ -61,13 +57,12 @@ class Signal(blinker.Signal):
     @staticmethod
     def thread_safe_receiver_call(receiver, sender, ret_append, kwargs):
         """
-        Делает вызов receiver потокобезопасным способом. Используется, когда
-        receiver вызывается из потока отличного от того, в котором создался
-        loop.
+        Performs threadsafe сall receiver.
         :param receiver: receiver
         :param sender: sender
-        :param ret_append: список куда добавляются результаты вызова receiver
-        :param kwargs: аргументы передаваемые в receiver
+        :param ret_append: The method of the list. This method appends results
+        of calling receiver to this list.
+        :param kwargs: data to be sent to receivers
         """
         if is_coroutine_func(receiver):
             future = asyncio.run_coroutine_threadsafe(
@@ -88,8 +83,9 @@ class Signal(blinker.Signal):
         когда receiver вызывается из потока в котором создавался loop.
         :param receiver: receiver
         :param sender: sender
-        :param ret_append: список куда добавляются результаты вызова receiver
-        :param kwargs: аргументы передаваемые в receiver
+        :param ret_append: The method of the list. This method appends results
+        of calling receiver to this list.
+        :param kwargs: data to be sent to receivers
         """
         if is_coroutine_func(receiver):
             future = asyncio.ensure_future(
