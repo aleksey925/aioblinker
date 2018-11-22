@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="aioblinker",
-    version='0.0.2',
+    version='0.1.0',
     packages=['aioblinker'],
     author='Petrunnik Aleksey',
     author_email='petrunnik.a@mail.ru',

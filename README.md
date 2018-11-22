@@ -32,6 +32,8 @@ P.S. measurements were made with the help of `timeit`.
 Examples can be found in the example folder, which is located at the root of 
 the repository.
 
+The project follows the [semantic versioning](https://semver.org) rules.
+
 
 **[RU]**
 
@@ -70,4 +72,4 @@ P.S. замеры производились при помощи `timeit`.
 Примеры можно посмотреть в папке examples, которая находится в корне 
 репозитория.
 
-
+Проект следует правилам [семантического версионирования](https://semver.org/lang/ru).
